@@ -1,6 +1,8 @@
 <?php
 
-require "modele/modele.php";
+require_once "modele/article.php";
+require_once "modele/client.php";
+require_once "modele/commande.php";
 
 // Affichage de la page d'accueil
 function accueil()
@@ -9,27 +11,30 @@ function accueil()
 }
 function clients()
 {
-    $clients = getClients();
+    $objCl = new Client();
+    $clients = $objCl->getClients();
     require "vue/vueClients.php";
 }
 function articles()
 {
-    $articles = getArticles();
+    $objArt = new article();
+    $articles = $objArt->getArticles();
     require "vue/vueArticles.php";
 }
 function commandes()
 {
-    $commandes = getCommandes();
+    $ObjComm = new commande();
+    $commandes = $ObjComm->getCommandes();
     require "vue/vueCommandes.php";
 }
 
 function commande($idComm)
 {
     $articles = getArticlesCommande($idComm);
-    if(!empty($articles)) {
-    $client = getClient(getIdClientCommande($idComm));
-    $total = getTotalCommande($idComm);
-    require "vue/vueCommande.php";
+    if (!empty($articles)) {
+        $client = getClient(getIdClientCommande($idComm));
+        $total = getTotalCommande($idComm);
+        require "vue/vueCommande.php";
     } else {
         throw new Exception("Echec de l'affichage de la commande n°$idComm");
     }
