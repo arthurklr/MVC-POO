@@ -30,12 +30,17 @@ function commandes()
 
 function commande($idComm)
 {
-    $articles = getArticlesCommande($idComm);
-    if (!empty($articles)) {
-        $client = getClient(getIdClientCommande($idComm));
-        $total = getTotalCommande($idComm);
+    $objComm = new Commande();
+    $ObjClient = new client();
+
+    $articles = $objComm->getArticlesCommande($idComm);
+    $idClient = $objComm->getIdClientCommande($idComm);
+    $client = $ObjClient->getClient($idClient);
+
+    if(!empty($articles) && $client){
+        $total = $objComm->getTotalCommande($idComm);
         require "vue/vueCommande.php";
-    } else {
+    } else{
         throw new Exception("Echec de l'affichage de la commande n°$idComm");
     }
 }
