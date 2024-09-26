@@ -20,48 +20,37 @@ class commande extends database
     return $commandes;
   }
 
-  
-}
+  public function getArticlesCommande($idComm)
+  {
+    $req = ('SELECT quantite AS "Quantité", designation AS "Désignation", categorie AS "Catégorie", prix AS "Prix" ' .
+      'FROM ligne ' .
+      'INNER JOIN article ON ligne.id_article = article.id_article ' .
+      'WHERE id_comm=?;');
+    $articles = $this->execReqPrep($req, array($idComm));
+    return $articles;
+  }
 
 
-// Retourne le montant total d'une commande
-function getTotalCommande($idComm)
-{
-  $bdd = connexionBDD();
-  $reponse = $bdd->prepare('SELECT SUM(quantite * prix) AS "total" ' .
-    'FROM ligne ' .
-    'INNER JOIN article ON ligne.id_article = article.id_article ' .
-    'WHERE id_comm=? ');
-  $reponse->execute(array($idComm));
-  $resultat = $reponse->fetchAll(PDO::FETCH_ASSOC);
-  return $resultat[0]["total"];
-}
+  public function getTotalCommande($idComm)
+  {
+    $req = ('SELECT SUM(quantite * prix) AS "total" ' .
+      'FROM ligne ' .
+      'INNER JOIN article ON ligne.id_article = article.id_article ' .
+      'WHERE id_comm=?');
+    $total = $this->execReqPrep($req, array($idComm));
+    return $total;
+  }
 
-// Retourne la liste des articles d'une commande
-function getArticlesCommande($idComm)
-{
-  $bdd = connexionBDD();
-  $reponse = $bdd->prepare('SELECT quantite AS "Quantité", designation AS "Désignation", categorie AS "Catégorie", prix AS "Prix" ' .
-    'FROM ligne ' .
-    'INNER JOIN article ON ligne.id_article = article.id_article ' .
-    'WHERE id_comm=?;');
-  $reponse->execute(array($idComm));
-  $articles = $reponse->fetchAll(PDO::FETCH_ASSOC);
-  return $articles;
-}
+  public function getIdClientCommande($idComm)
+  {
+    $req = 'SELECT id_client FROM commande WHERE id_comm=?;';
+    $resultat = $this->execReqPrep($req, array($idComm));
 
-// Retourne l'id_client d'une commande
-function getIdClientCommande($idComm)
-{
-  $bdd = connexionBDD();
-  $reponse = $bdd->prepare('SELECT id_client FROM commande WHERE id_comm=?;');
-  $reponse->execute(array($idComm));
-  $resultat = $reponse->fetchAll(PDO::FETCH_ASSOC);
+    if (isset($resultat[0]['id_client'])) {
+      return $resultat[0]['id_client'];
+    } else {
+      return FALSE;
+    }
 
-  if (isset($resultat[0]["id_client"]))
-    return $resultat[0]["id_client"];
-  else
-    throw new Exception("Le client de la commande $idComm n'existe pas");
-  // Même instruction avec l' "opérateur ternaire"
-  //return isset($resultat[0]["id_client"]) ? $resultat[0]["id_client"] : FALSE;
+  }
 }
