@@ -31,9 +31,8 @@ ob_start();
     echo '</tr>';
   }
   echo '</table>';
-
   ?>
-  <div class="titreCommande">Total : <?= $total ?> €</div>
+  <div class="titreCommande">Total : <?= $total['0']['total'] ?> €</div>
 </div>
 <?php
 $contenu = ob_get_clean();
