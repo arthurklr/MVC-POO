@@ -17,31 +17,23 @@ class client extends database
     $clients = $this->execReq($req);
     return $clients;
   }
+
+
+  /*******************************************************
+  Retourne les informations d'un client liste des articles
+  Entrée : idClient [int] : identifiant du client
+  Retour :
+  [array] : Tableau associatif contenant les informations du client ou FALSE en cas d'erreur
+  *******************************************************/
+  public function getClient($idClient)
+  {
+    $req = 'SELECT * FROM client WHERE id_client=?';
+    $resultat = $this->execReqPrep($req, array($idClient));
+
+    if (isset($resultat[0])) {
+      return $resultat[0];
+    } else {
+      return false;
+    }
+  }
 }
-
-
-/*public function getClient($idClient)
-{
-  $req = ('SELECT * FROM client WHERE id_client=?');
-  $data = array($idClient);
-  $client = $this->execReqPrep($req, $data);
-  return $client;
-}
-
-
-// Retourne les informations d'un client
-function getClient($idClient)
-{
-$bdd = connexionBDD();
-$reponse = $bdd->prepare('SELECT * FROM client WHERE id_client=?');
-$reponse->execute(array($idClient));
-
-if ($reponse->rowCount() == 1)
-  return $reponse->fetch(PDO::FETCH_ASSOC);
-else
-  return FALSE;
-}*/
-
-
-
-
