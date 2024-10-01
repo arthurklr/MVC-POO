@@ -24,6 +24,7 @@ class commande extends database
 }
 
 
+/*
 // Retourne le montant total d'une commande
 function getTotalCommande($idComm)
 {
@@ -65,3 +66,5 @@ function getIdClientCommande($idComm)
   // Même instruction avec l' "opérateur ternaire"
   //return isset($resultat[0]["id_client"]) ? $resultat[0]["id_client"] : FALSE;
 }
+
+*/
