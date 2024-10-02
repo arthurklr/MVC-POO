@@ -28,7 +28,9 @@ function login($nom, $mdp)
 }
 
 function quitter(){
-    
+    session_destroy();
+    setcookie(session_name(), '', 1, '/');
+    header('Location: index.php');
 }
 
 
