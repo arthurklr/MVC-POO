@@ -4,11 +4,34 @@ require_once "modele/article.php";
 require_once "modele/client.php";
 require_once "modele/commande.php";
 
+//Affichage de la page de contrôle d'accès
+function ctlAcces()
+{
+    require "vue/vueCtlAcces.php";
+}
+
 // Affichage de la page d'accueil
 function accueil()
 {
     require "vue/vueAccueil.php";
 }
+
+// Authentification sur le site
+function login($nom, $mdp)
+{
+    if ($mdp == UPWD && !empty($nom) && !empty($mdp)) {
+        $_SESSION["acces"] = $nom;
+        accueil();
+    } else {
+        ctlAcces();
+    }
+}
+
+function quitter(){
+    
+}
+
+
 function clients()
 {
     $objCl = new Client();
@@ -37,10 +60,10 @@ function commande($idComm)
     $idClient = $objComm->getIdClientCommande($idComm);
     $client = $ObjClient->getClient($idClient);
 
-    if(!empty($articles) && $client){
+    if (!empty($articles) && $client) {
         $total = $objComm->getTotalCommande($idComm);
         require "vue/vueCommande.php";
-    } else{
+    } else {
         throw new Exception("Echec de l'affichage de la commande n°$idComm");
     }
 }
