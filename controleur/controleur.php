@@ -22,12 +22,14 @@ function login($nom, $mdp)
     if ($mdp == UPWD && !empty($nom) && !empty($mdp)) {
         $_SESSION["acces"] = $nom;
         accueil();
+        setcookie("page", $_SERVER['REQUEST_URI'], expires_or_options: time() + (3600 * 24 * 30 * 12));
     } else {
         ctlAcces();
     }
 }
 
-function quitter(){
+function quitter()
+{
     session_destroy();
     setcookie(session_name(), '', 1, '/');
     header('Location: index.php');
