@@ -66,7 +66,7 @@ function commandes()
 
 function commande($idComm)
 {
-    setcookie("page", "?action=commande&idComm=".$idComm, time() + (365 * 24 * 60 * 60)); // 1 an
+    setcookie("page", "?action=commande&idComm=$idComm", time() + (365 * 24 * 60 * 60)); // 1 an
 
     $objComm = new Commande();
     $ObjClient = new client();
