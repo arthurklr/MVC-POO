@@ -14,6 +14,7 @@ function ctlAcces()
 // Affichage de la page d'accueil
 function accueil()
 {
+    setcookie("page", "", time() + (365 * 24 * 60 * 60)); // 1 an
     require "vue/vueAccueil.php";
 }
 
@@ -23,22 +24,11 @@ function login($nom, $mdp)
     $cookie = $_COOKIE['page'];
     if ($mdp == UPWD && !empty($nom) && !empty($mdp)) {
         $_SESSION["acces"] = $nom;
-
-        if (!empty($cookie)) {
-            if ($cookie == 'clients') {
-                clients();
-            } elseif ($cookie == 'articles') {
-                articles();
-            } elseif ($cookie == 'commandes') {
-                commandes();
-            } /*elseif($cookie == ''){
-                commande(idComm: $cookie);
-            }*/ elseif ($cookie == 'erreur') {
-                erreur("Erreur lors de la navigation.");
-            }
-        } else {
-            accueil();
-        }
+        //accueil();
+        if (isset($_COOKIE['page']))
+            header("Location: index.php" . $_COOKIE['page']);
+        else
+            header("Location: index.php");
     } else {
         ctlAcces();
     }
@@ -56,26 +46,28 @@ function clients()
 {
     $objCl = new Client();
     $clients = $objCl->getClients();
-    setcookie("page", "clients", time() + (365 * 24 * 60 * 60)); // 1 an
+    setcookie("page", "?action=clients", time() + (365 * 24 * 60 * 60)); // 1 an
     require "vue/vueClients.php";
 }
 function articles()
 {
     $objArt = new article();
     $articles = $objArt->getArticles();
-    setcookie("page", "articles", time() + (365 * 24 * 60 * 60)); // 1 an
+    setcookie("page", "?action=articles", time() + (365 * 24 * 60 * 60)); // 1 an
     require "vue/vueArticles.php";
 }
 function commandes()
 {
     $ObjComm = new commande();
     $commandes = $ObjComm->getCommandes();
-    setcookie("page", "commandes", time() + (365 * 24 * 60 * 60)); // 1 an
+    setcookie("page", "?action=commandes", time() + (365 * 24 * 60 * 60)); // 1 an
     require "vue/vueCommandes.php";
 }
 
 function commande($idComm)
 {
+    setcookie("page", "?action=commande&idComm=".$idComm, time() + (365 * 24 * 60 * 60)); // 1 an
+
     $objComm = new Commande();
     $ObjClient = new client();
 
@@ -85,7 +77,6 @@ function commande($idComm)
 
     if (!empty($articles) && $client) {
         $total = $objComm->getTotalCommande($idComm);
-        setcookie("page", $idComm, time() + (365 * 24 * 60 * 60)); // 1 an
         require "vue/vueCommande.php";
     } else {
         throw new Exception("Echec de l'affichage de la commande n°$idComm");
