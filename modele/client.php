@@ -9,7 +9,7 @@ class client extends database
   Entrée :
   Retour :
   [array] : Tableau associatif contenant la liste des articles
-  *******************************************************/
+   *******************************************************/
   // Retourne la liste des clients
   public function getClients()
   {
@@ -24,7 +24,7 @@ class client extends database
   Entrée : idClient [int] : identifiant du client
   Retour :
   [array] : Tableau associatif contenant les informations du client ou FALSE en cas d'erreur
-  *******************************************************/
+   *******************************************************/
   public function getClient($idClient)
   {
     $req = 'SELECT * FROM client WHERE id_client=?';
