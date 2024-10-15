@@ -56,6 +56,21 @@ function articles()
     setcookie("page", "?action=articles", time() + (365 * 24 * 60 * 60)); // 1 an
     require "vue/vueArticles.php";
 }
+
+function articlePhoto($idArt)
+{
+    $objArt = new article();
+    $article = $objArt->getArticle($idArt);
+    require "vue/vueArticlePhoto.php";
+}
+
+function enregArticlePhoto($idArt)
+{
+    $objArt = new article();
+    $article = $objArt->updateArticlePhoto($idArt);
+    articles();
+}
+
 function commandes()
 {
     $ObjComm = new commande();
