@@ -13,7 +13,14 @@ try {
                 clients(); // Affichage de la liste des clients
             } else if ($_GET["action"] == "articles") {
                 articles();
-            } else if ($_GET["action"] == "commandes") {
+            } 
+            else if ($_GET["action"] == "articlePhoto"){
+                articlePhoto($_GET['idArt']);
+            }
+            else if ($_GET["action"] == "enregArticlePhoto"){
+                enregArticlePhoto($_GET['idArt']);
+            }
+            else if ($_GET["action"] == "commandes") {
                 commandes();
             } else if ($_GET["action"] == "commande") {
                 if (isset($_GET['idComm'])) {
