@@ -16,3 +16,4 @@ define("DBNAME", "magasin");
 define("DBUSER", "root");
 define("DBPWD", "");
 define("UPWD", "mmi");
+define("PHOTOARTDIR", "photoArticle");
