@@ -10,6 +10,7 @@ ob_start();
   if (count($articles)) {
     // Affichage des titres de colonnes du tableau
     echo '<table><tr>';
+    echo '<th>Photo</th>';
     foreach ($articles[0] as $cle => $valeur) {
       echo '<th>' . $cle . '</th>';
     }
@@ -18,6 +19,16 @@ ob_start();
     // Affichage des lignes du tableau
     foreach ($articles as $ligne) {
       echo '<tr>';
+
+      if (file_exists(PHOTOARTDIR . '/' . $ligne['Code'] . '.png')) {
+        $photo = PHOTOARTDIR . '/' . $ligne['Code'] . '.png';
+      } else if (file_exists(PHOTOARTDIR . '/' . $ligne['Code'] . '.jpg')) {
+        $photo = PHOTOARTDIR . '/' . $ligne['Code'] . '.jpg';
+      } else {
+        $photo = PHOTOARTDIR . "/defaut.png";
+      }
+
+      echo "<td><a href='index.php?action=articlePhoto&idArt=" . $ligne['Code'] . "'><img height='60px' src='" . $photo . "'></a></td>";
       // Affichage des valeurs d'une ligne
       foreach ($ligne as $valeur) {
         echo '<td>' . $valeur . '</td>';
